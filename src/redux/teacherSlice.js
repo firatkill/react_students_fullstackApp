@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import alertify from "alertifyjs";
 const apiRoute = "http://localhost:18181/api";
 
 const initialState = {
@@ -8,16 +9,34 @@ const initialState = {
   selectedTeacher: null,
 };
 
-export const getAllTeachers = createAsyncThunk("getAllTeachers", async () => {
-  let response = await fetch(apiRoute + "/teachers");
+export const postTeacher = createAsyncThunk("postTeacher", async (teacher) => {
+  let response = await fetch(apiRoute + "/teachers", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      firstName: teacher.firstName,
+      lastName: teacher.lastName,
+      email: teacher.email,
+    }),
+  });
   response = await response.json();
   return response;
 });
 
+export const getAllTeachers = createAsyncThunk("getAllTeachers", async () => {
+  let response = await fetch(apiRoute + "/teachers");
+  if (response) {
+    response = await response.json();
+    return response;
+  } else {
+    console.log(response);
+  }
+});
+
 export const updateTeacher = createAsyncThunk(
   "updateTeacher",
-  async (id, teacher) => {
-    let response = await fetch(apiRoute + "/teachers/" + id, {
+  async (teacher) => {
+    let response = await fetch(apiRoute + "/teachers/" + teacher.id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -57,11 +76,13 @@ const teacherSlice = createSlice({
     builder.addCase(getAllTeachers.fulfilled, (state, action) => {
       state.teachers = action.payload;
       state.pending = false;
+      state.error = "";
     });
     builder.addCase(getAllTeachers.rejected, (state, action) => {
       state.data = [];
       state.pending = false;
-      state.error = "";
+      state.error = action.error;
+      alertify.danger(action.error.message);
     });
     builder.addCase(updateTeacher.pending, (state, action) => {
       state.pending = true;
@@ -69,11 +90,28 @@ const teacherSlice = createSlice({
     });
     builder.addCase(updateTeacher.fulfilled, (state, action) => {
       state.pending = false;
+      state.error = "";
+      alertify.success("Teacher updated.");
     });
     builder.addCase(updateTeacher.rejected, (state, action) => {
       state.pending = false;
 
       state.error = action.error;
+      alertify.danger(action.error.message);
+    });
+    builder.addCase(postTeacher.pending, (state, action) => {
+      state.pending = true;
+      state.error = "";
+    });
+    builder.addCase(postTeacher.fulfilled, (state, action) => {
+      state.pending = false;
+      state.error = "";
+      alertify.success("Teacher Added to DB.");
+    });
+    builder.addCase(postTeacher.rejected, (state, action) => {
+      state.pending = false;
+      state.error = action.error;
+      alertify.danger(action.error.message);
     });
   },
 });

@@ -11,7 +11,6 @@ function Teachers() {
   useEffect(() => {
     dispatch(getAllTeachers());
   }, [dispatch]);
-  console.log(data);
 
   return (
     <div>
@@ -27,6 +26,11 @@ function Teachers() {
       <hr />{" "}
       <ul className="container  d-flex justify-content-between align-items-center list-group ">
         {data.pending && "Pending..."}
+        {data.error !== "" && (
+          <div class="alert alert-danger w-100 text-center" role="alert">
+            {data.error.message}
+          </div>
+        )}
         {data.teachers.length > 0 &&
           data.teachers.map((teacher) => (
             <li

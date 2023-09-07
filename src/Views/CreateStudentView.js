@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { postStudent } from "../API/studentRequests";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { postStudent } from "../redux/studentSlice";
+
 function CreateStudentView(props) {
-  const student = {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [studentInfo, setStudentInfo] = useState({
     studentNumber: 0,
     firstName: "",
     lastName: "",
     email: "",
-  };
-  const [studentInfo, setStudentInfo] = useState(student);
+  });
 
   const changeHandler = (e) => {
     switch (e.target.id) {
@@ -32,14 +35,9 @@ function CreateStudentView(props) {
         break;
     }
   };
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
-    await postStudent({
-      studentNumber: 156,
-      firstName: "somename",
-      lastName: "someLastName",
-      email: "someEmail@gmail.com",
-    });
+    dispatch(postStudent(studentInfo));
   };
   return (
     <form onSubmit={submitHandler}>
@@ -96,7 +94,7 @@ function CreateStudentView(props) {
           Cancel
         </Link>
         <button type="submit" className="btn btn-outline-success">
-          Update
+          Create
         </button>
       </div>
     </form>

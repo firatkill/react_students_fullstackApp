@@ -2,13 +2,24 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const uiSlice = createSlice({
   name: "ui",
-  initialState: { isSidebarOpen: false, windowSize: 0 },
-  reducers: {
-    toggleSidebar(state) {
-      state.isSidebarOpen = !state.isSidebarOpen;
+  initialState: {
+    isToastOpen: "false",
+    toastInfo: {
+      type: "alert",
+      message: "Something went wrong.",
     },
-    updateWindowSize(state, action) {
-      state.windowSize = action.payload;
+  },
+  reducers: {
+    triggerToast(state, action) {
+      state.toastInfo = action.payload;
+      state.isToastOpen = "true";
+    },
+    resetToast(state) {
+      state.toastInfo = {
+        type: "alert",
+        message: "Something went wrong.",
+      };
+      state.isToastOpen = "false";
     },
   },
 });

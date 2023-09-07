@@ -14,17 +14,16 @@ import CreateStudentView from "./Views/CreateStudentView";
 import CreateLectureView from "./Views/CreateLectureView";
 import TeacherDetailsView from "./Views/TeacherDetailsView";
 import CreateTeacherView from "./Views/CreateTeacherView";
+
 import { postTeacher } from "./API/teacherRequests";
+import Spinner from "./Components/Global/UI/Spinner";
+import * as alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.css";
+
 function App() {
-  const dispatch = useDispatch();
-
-  window.addEventListener(
-    "resize",
-    dispatch(uiActions.updateWindowSize(window.innerWidth))
-  );
-
   return (
     <div className="App">
+      <Spinner />
       <Layout>
         <Routes>
           <Route path="/dashboard" element={<DashboardView />} />

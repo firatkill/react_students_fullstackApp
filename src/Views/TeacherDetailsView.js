@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  Router,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import {
   getAllTeachers,
   teacherActions,
   updateTeacher,
 } from "../redux/teacherSlice";
+import { getAllLectures } from "../redux/lectureSlice";
 
 function TeacherDetailsView(props) {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const params = useParams();
 
   const data = useSelector((state) => state.teachers);
@@ -47,23 +54,8 @@ function TeacherDetailsView(props) {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(teacher);
-    let response = await fetch(
-      "http://localhost:18181/api/teachers/" + params.teacherId,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: teacher.firstName,
-          lastName: teacher.lastName,
-          email: teacher.email,
-        }),
-      }
-    );
-    response = await response.json();
-    console.log(response);
-
-    return response;
+    dispatch(updateTeacher(teacher));
+    navigate("/teachers");
   };
   useEffect(() => {
     const fetchData = async () => {

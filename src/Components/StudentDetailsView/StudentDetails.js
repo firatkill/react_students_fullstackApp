@@ -1,48 +1,103 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 import StudentDetailsForm from "./StudentDetailsForm";
+import {
+  getAllStudents,
+  getStudentsLectures,
+  studentActions,
+  updateStudent,
+} from "../../redux/studentSlice";
+import { getAllLectures } from "../../redux/lectureSlice";
+
 function StudentDetails(props) {
-  const students = useSelector((state) => state.data.data.students);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const params = useParams();
-  const student = students.find(
-    (student) => student.id === Number.parseInt(params.studentId)
-  );
-  const [studentInfo, setStudentInfo] = useState(student);
 
+  const data = useSelector((state) => state.student);
+  const student = useSelector((state) => state.student.selectedStudent);
+  const lectures = useSelector((state) => state.lectures.lectures);
+  const studentsLectures = useSelector(
+    (state) => state.student.studentsLectures
+  );
   const changeHandler = (e) => {
     switch (e.target.id) {
       case "StudentNumberInput":
-        setStudentInfo({ ...studentInfo, studentNumber: e.target.value });
+        dispatch(
+          studentActions.updateStudent({
+            ...student,
+            studentNumber: e.target.value,
+          })
+        );
         break;
       case "StudentFirstNameInput":
-        setStudentInfo({ ...studentInfo, firstName: e.target.value });
+        dispatch(
+          studentActions.updateStudent({
+            ...student,
+            firstName: e.target.value,
+          })
+        );
         break;
       case "StudentLastNameInput":
-        setStudentInfo({ ...studentInfo, lastName: e.target.value });
+        dispatch(
+          studentActions.updateStudent({
+            ...student,
+            lastName: e.target.value,
+          })
+        );
         break;
       case "StudentEmailInput":
-        setStudentInfo({
-          ...studentInfo,
-          email: e.target.value,
-        });
+        dispatch(
+          studentActions.updateStudent({
+            ...student,
+            email: e.target.value,
+          })
+        );
         break;
       default:
         break;
     }
   };
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(studentInfo);
+    dispatch(updateStudent(student));
+    navigate("/students");
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getAllStudents());
+      await dispatch(getAllLectures());
+
+      await dispatch(
+        studentActions.selectStudent(Number.parseInt(params.studentId))
+      );
+      await dispatch(getStudentsLectures(Number.parseInt(params.studentId)));
+    };
+    fetchData();
+
+    return () => {};
+  }, [dispatch, params.studentId]);
+
   return (
-    <StudentDetailsForm
-      studentInfo={studentInfo}
-      changeHandler={changeHandler}
-      submitHandler={submitHandler}
-    />
+    <>
+      {data.pending && "pending"}
+      {data.error !== "" && (
+        <div class="alert alert-danger w-100 text-center" role="alert">
+          {data.error.message}
+        </div>
+      )}
+      {studentsLectures && student && (
+        <StudentDetailsForm
+          lectures={lectures}
+          studentInfo={student}
+          changeHandler={changeHandler}
+          submitHandler={submitHandler}
+          studentsLectures={studentsLectures}
+        />
+      )}
+    </>
   );
 }
 

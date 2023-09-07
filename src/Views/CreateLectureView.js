@@ -1,11 +1,18 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { postLecture } from "../API/lectureRequests";
-function CreateLectureView() {
-  const teachers = useSelector((state) => state.data.data.teachers);
-  const lecture = { name: "", classroom: "", studentCapacity: 0, teacher: {} };
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
+import { getAllTeachers } from "../redux/teacherSlice";
+import { uiActions } from "../redux/uiSlice";
+import * as alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.css";
+import { postLecture } from "../redux/lectureSlice";
+
+function CreateLectureView() {
+  const teachers = useSelector((state) => state.teachers.teachers);
+  const lecture = { name: "", classroom: "", studentCapacity: 0, teacher: {} };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [lectureInfo, setLectureInfo] = useState(lecture);
 
   const changeHandler = (e) => {
@@ -31,15 +38,15 @@ function CreateLectureView() {
         break;
     }
   };
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    await postLecture({
-      name: "geographytata",
-      classroom: "9b",
-      studentCapacity: 33,
-      teacher: teachers[0],
-    });
+    await dispatch(postLecture(lectureInfo));
   };
+  useEffect(() => {
+    dispatch(getAllTeachers());
+    return () => {};
+  }, [dispatch]);
   return (
     <form onSubmit={submitHandler}>
       <div className="mb-3">
@@ -102,7 +109,7 @@ function CreateLectureView() {
           Cancel
         </Link>
         <button type="submit" className="btn btn-outline-success">
-          Update
+          Create
         </button>
       </div>
     </form>

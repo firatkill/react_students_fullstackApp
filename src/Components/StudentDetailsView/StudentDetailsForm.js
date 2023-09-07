@@ -1,9 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
+
 import StudentAppendLectureList from "./StudentAppendLectureList";
+import { useDispatch } from "react-redux";
+import { studentActions } from "../../redux/studentSlice";
 function StudentDetailsForm(props) {
+  const dispatch = useDispatch();
+  const [selectedLectures, setSelectedLectures] = useState([]);
+
+  useEffect(() => {
+    const tempArr = [];
+    props.lectures.forEach((elem) => {
+      if (selectedLectures.indexOf(elem.id) > -1) {
+        tempArr.push(elem);
+      }
+    });
+    dispatch(studentActions.setStudentsLectures(tempArr));
+  }, [selectedLectures, dispatch, props.lectures]);
+
   return (
     <form onSubmit={props.submitHandler}>
       <div className="mb-3">
@@ -54,7 +68,12 @@ function StudentDetailsForm(props) {
           type="text"
         />
       </div>
-      <StudentAppendLectureList />
+      <StudentAppendLectureList
+        setSelectedLectures={setSelectedLectures}
+        selectedLectures={selectedLectures}
+        studentsLectures={props.studentsLectures}
+        lectures={props.lectures}
+      />
       <div className="d-flex justify-content-between align-items-center mt-3 ">
         <Link className="btn btn-outline-secondary" to="/students">
           Cancel

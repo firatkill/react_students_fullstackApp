@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { postTeacher } from "../API/teacherRequests";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { postTeacher } from "../redux/teacherSlice";
+
 function CreateTeacherView(props) {
+  const navigate = useNavigate();
   const teacher = { firstName: "", lastName: "", email: "" };
   const [teacherInfo, setTeacherInfo] = useState(teacher);
-
+  const dispatch = useDispatch();
   const changeHandler = (e) => {
     switch (e.target.id) {
       case "TeacherFirstNameInput":
@@ -24,13 +26,10 @@ function CreateTeacherView(props) {
         break;
     }
   };
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
-    await postTeacher({
-      firstName: "somename",
-      lastName: "someLastName",
-      email: "someEmail@gmail.com",
-    });
+    dispatch(postTeacher(teacherInfo));
+    navigate("/teachers");
   };
   return (
     <form onSubmit={submitHandler}>
