@@ -4,10 +4,6 @@ import StudentsView from "./Views/StudentsView";
 import LecturesView from "./Views/LecturesView.js";
 import TeachersView from "./Views/TeachersView";
 import Layout from "./Components/Global/Layout/Layout";
-import { useDispatch } from "react-redux";
-import { uiActions } from "./redux/uiSlice";
-import ViewLecture from "./Views/LectureDetailsView";
-import ViewStudent from "./Views/StudentDetailsView";
 import StudentDetailsView from "./Views/StudentDetailsView";
 import LectureDetailsView from "./Views/LectureDetailsView";
 import CreateStudentView from "./Views/CreateStudentView";
@@ -15,10 +11,7 @@ import CreateLectureView from "./Views/CreateLectureView";
 import TeacherDetailsView from "./Views/TeacherDetailsView";
 import CreateTeacherView from "./Views/CreateTeacherView";
 
-import { postTeacher } from "./API/teacherRequests";
 import Spinner from "./Components/Global/UI/Spinner";
-import * as alertify from "alertifyjs";
-import "alertifyjs/build/css/alertify.css";
 
 function App() {
   return (

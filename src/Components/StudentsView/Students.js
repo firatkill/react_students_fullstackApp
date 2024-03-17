@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Students.module.css";
 import { Link } from "react-router-dom";
@@ -15,7 +15,7 @@ function Students() {
   return (
     <div>
       <div className="d-flex align-items-center justify-content-between ">
-        <h1>Students</h1>
+        <h1 className={styles.listHeader}>Students</h1>
         <Link
           className={styles.createButton + " btn btn-outline-success"}
           to="/students/create"
@@ -57,7 +57,7 @@ function Students() {
               </div>
 
               <Link
-                className=" d-flex align-items-center justify-content-center col-1 rounded fw-bold btn btn-outline-secondary "
+                className={`d-flex align-items-center justify-content-center col-1 rounded fw-bold btn btn-outline-secondary ${styles.viewButton}`}
                 to={"/students/view/" + student.id}
               >
                 View

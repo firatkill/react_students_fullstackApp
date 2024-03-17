@@ -1,17 +1,20 @@
-.backgroundRed {
-  background-color: red;
+.sidebarContainer {
+  background-color: var(--yellow);
 }
 .sidebar_link {
   text-decoration-line: none;
-  color: var(--primary);
-  background-color: var(--light);
+  color: var(--yellow);
+  background-color: var(--lightred);
   margin-top: 5px;
   border-radius: 8px;
+  border: 3px solid transparent;
+  font-weight: bolder;
   padding: 10px 15px;
 }
 .sidebar_link:hover {
-  color: var(--light);
-  background-color: var(--primary);
+  color: var(--lightred);
+  background-color: var(--yellow);
+  border-color: var(--lightred);
 }
 
 .sidebarButton {
@@ -19,6 +22,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
+  padding: 0.75rem;
+  transition: all 0.25s ease-out;
+  color: var(--darkred);
+  font-weight: bolder;
+  outline: none !important;
+  border: none !important;
+  border-radius: 20px;
+}
+.sidebarButton:hover {
+  color: var(--yellow);
+  background-color: var(--darkred);
 }
 .mainContainer {
   box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.1);
@@ -26,10 +41,13 @@
   padding: 2%;
   border-radius: 15px;
   min-height: 60vh;
+  background-color: var(--yellow);
 }
 .headerContainer {
-  background-color: white;
-  width: 95%;
+  background-color: var(--yellow);
+  width: 100%;
+  padding: 0 2vw;
+
   margin: auto;
   border: none !important;
 }
@@ -37,15 +55,29 @@
   padding-left: 2rem;
   font-size: 1.25rem;
   font-weight: bolder;
-  color: var(--primary);
+  color: var(--darkred);
 }
 
 .dateContainer div:last-of-type p {
   font-size: 3rem;
-  color: var(--secondary);
+  color: var(--darkred);
 }
 .langSelect {
   width: 200px !important;
   text-align: center;
   padding: 10px 15px;
+  background-color: var(--darkred);
+  color: var(--yellow);
+  font-weight: bolder;
+  border-radius: 12px;
+
+  cursor: pointer;
+  outline: none;
+
+  border: 3px solid transparent;
+}
+.langSelect:focus {
+  background-color: transparent;
+  border-color: var(--darkred);
+  color: var(--darkred);
 }

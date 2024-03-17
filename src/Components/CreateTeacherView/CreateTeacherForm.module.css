@@ -1,0 +1,35 @@
+.inputGroup input {
+  background-color: var(--darkred);
+  border: none;
+  color: white;
+}
+.inputGroup input:focus {
+  background-color: var(--darkred);
+  color: white;
+}
+.inputGroup label {
+  color: var(--darkred);
+  font-weight: bolder;
+}
+.cancelButton {
+  background-color: transparent;
+  color: var(--lightred);
+  font-weight: bolder;
+  border: 2px solid var(--lightred);
+}
+.cancelButton:hover {
+  background-color: var(--lightred);
+  border-color: transparent;
+  color: var(--yellow);
+}
+.createButton {
+  background-color: transparent;
+  border: 2px solid var(--darkblue);
+  font-weight: bolder;
+  color: var(--darkblue);
+}
+.createButton:hover {
+  background-color: var(--darkblue);
+  border-color: transparent;
+  color: var(--yellow);
+}

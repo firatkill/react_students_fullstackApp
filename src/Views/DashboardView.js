@@ -1,4 +1,3 @@
-import React from "react";
 import Dashboard from "../Components/DashboardView/Dashboard";
 
 function Home() {

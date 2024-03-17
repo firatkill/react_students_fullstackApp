@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Layout.module.css";
 
@@ -6,7 +5,7 @@ function Sidebar() {
   return (
     <div>
       <div
-        className="offcanvas offcanvas-start"
+        className={`offcanvas offcanvas-start ${styles.sidebarContainer}`}
         tabIndex="-1"
         id="myOffCanvas"
         aria-labelledby="offcanvasExampleLabel"

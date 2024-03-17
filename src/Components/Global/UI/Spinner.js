@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Spinner.module.css";
 import { useSelector } from "react-redux";
 function Spinner() {

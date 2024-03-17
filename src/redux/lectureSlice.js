@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import alertify from "alertifyjs";
-const apiRoute = "http://localhost:18181/api";
+const apiRoute = "http://localhost:8080/api";
 
 const initialState = {
   lectures: [],
@@ -47,6 +47,18 @@ export const getAllLectures = createAsyncThunk("getAllLectures", async () => {
   return response;
 });
 
+export const deleteSelectedLecture = createAsyncThunk(
+  "deleteSelectedLecture",
+  async (lecture) => {
+    let lectureResponse = await fetch(apiRoute + "/lectures/" + lecture.id, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    lectureResponse = await lectureResponse.json();
+
+    return lectureResponse;
+  }
+);
 export const updateSelectedLecture = createAsyncThunk(
   "updateSelectedLecture",
   async (lecture) => {
@@ -137,6 +149,20 @@ const lectureSlice = createSlice({
       alertify.success("Lecture Successfully added to DB.");
     });
     builder.addCase(postLecture.rejected, (state, action) => {
+      state.pending = false;
+      state.error = action.error;
+      alertify.error(action.error.message);
+    });
+    builder.addCase(deleteSelectedLecture.pending, (state, action) => {
+      state.pending = true;
+      state.error = "";
+    });
+    builder.addCase(deleteSelectedLecture.fulfilled, (state, action) => {
+      state.pending = false;
+      state.error = "";
+      alertify.success("Lecture Successfully Deleted.");
+    });
+    builder.addCase(deleteSelectedLecture.rejected, (state, action) => {
       state.pending = false;
       state.error = action.error;
       alertify.error(action.error.message);

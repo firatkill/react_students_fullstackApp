@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import alertify from "alertifyjs";
-const apiRoute = "http://localhost:18181/api";
+const apiRoute = "http://localhost:8080/api";
 
 const initialState = {
   students: [],
@@ -23,6 +23,17 @@ export const postStudent = createAsyncThunk("postStudent", async (student) => {
   response = await response.json();
   return response;
 });
+export const deleteStudent = createAsyncThunk(
+  "deleteStudent",
+  async (student) => {
+    let response = await fetch(apiRoute + "/students/" + student.id, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    response = await response.json();
+    return response;
+  }
+);
 
 export const getStudentsLectures = createAsyncThunk(
   "getStudentsLectures",
@@ -44,7 +55,7 @@ export const getAllStudents = createAsyncThunk("getAllStudents", async () => {
 export const updateStudent = createAsyncThunk(
   "updateStudent",
   async (student, lectures) => {
-    let StudentResponse = await fetch(apiRoute + "/students/" + student.id, {
+    let studentResponse = await fetch(apiRoute + "/students/" + student.id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -54,9 +65,19 @@ export const updateStudent = createAsyncThunk(
         email: student.email,
       }),
     });
-    StudentResponse = await response.json();
 
-    return StudentResponse;
+    let lectureResponse = await fetch(
+      apiRoute + "/students/" + student.id + "/addLectures",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(lectures.getState().student.studentsLectures),
+      }
+    );
+
+    lectureResponse = await lectureResponse.json();
+
+    return lectureResponse;
   }
 );
 
@@ -117,6 +138,20 @@ const studentSlice = createSlice({
       alertify.success("Successfully created student.");
     });
     builder.addCase(postStudent.rejected, (state, action) => {
+      state.pending = false;
+      state.error = action.error;
+      alertify.error(action.error.message);
+    });
+    builder.addCase(deleteStudent.pending, (state, action) => {
+      state.pending = true;
+      state.error = "";
+    });
+    builder.addCase(deleteStudent.fulfilled, (state, action) => {
+      state.pending = false;
+      state.error = "";
+      alertify.success("Successfully deleted student.");
+    });
+    builder.addCase(deleteStudent.rejected, (state, action) => {
       state.pending = false;
       state.error = action.error;
       alertify.error(action.error.message);

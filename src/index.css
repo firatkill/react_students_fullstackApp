@@ -9,6 +9,7 @@ body {
   width: 100% !important;
   position: relative;
   overflow: auto;
+  background-color: var(--white);
 }
 html {
   height: 100vh;
@@ -20,9 +21,10 @@ code {
     monospace;
 }
 :root {
-  --primary: #112d4e;
-  --secondary: #3f72af;
-  --light: #dbe2ef;
-  --white: #f9f7f7;
-  --orange: #ee8434;
+  --lightblue: #0496ff;
+  --darkblue: #006ba6;
+  --lightred: #d81159;
+  --darkred: #8f2d56;
+  --yellow: #ffbc42;
+  --white: #dee2e6;
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import styles from "./Layout.module.css";
 import { Link } from "react-router-dom";
@@ -20,7 +19,7 @@ function Header() {
     >
       <div className="d-flex align-items-center">
         <button
-          className={"btn btn-outline " + styles.sidebarButton}
+          className={styles.sidebarButton}
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#myOffCanvas"

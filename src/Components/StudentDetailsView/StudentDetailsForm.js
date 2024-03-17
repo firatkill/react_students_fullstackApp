@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import styles from "./StudentDetailsForm.module.css";
 import StudentAppendLectureList from "./StudentAppendLectureList";
 import { useDispatch } from "react-redux";
 import { studentActions } from "../../redux/studentSlice";
@@ -20,7 +20,7 @@ function StudentDetailsForm(props) {
 
   return (
     <form onSubmit={props.submitHandler}>
-      <div className="mb-3">
+      <div className={`${styles.inputGroup} mb-3`}>
         <label className="form-label" for="StudentNumberInput">
           Student Number
         </label>
@@ -32,7 +32,7 @@ function StudentDetailsForm(props) {
           type="number"
         />
       </div>
-      <div className="mb-3">
+      <div className={`${styles.inputGroup} mb-3`}>
         <label className="form-label" for="StudentFirstNameInput">
           First Name
         </label>
@@ -44,7 +44,7 @@ function StudentDetailsForm(props) {
           type="text"
         />
       </div>
-      <div className="mb-3">
+      <div className={`${styles.inputGroup} mb-3`}>
         <label className="form-label" for="StudentLastNameInput">
           Last Name
         </label>
@@ -56,9 +56,9 @@ function StudentDetailsForm(props) {
           type="text"
         />
       </div>
-      <div className="mb-3">
+      <div className={`${styles.inputGroup} mb-3`}>
         <label className="form-label" for="StudentEmailInput">
-          Last Name
+          Email
         </label>
         <input
           value={props.studentInfo.email}
@@ -75,12 +75,27 @@ function StudentDetailsForm(props) {
         lectures={props.lectures}
       />
       <div className="d-flex justify-content-between align-items-center mt-3 ">
-        <Link className="btn btn-outline-secondary" to="/students">
+        <Link
+          className={`${styles.cancelButton} btn btn-outline-secondary"`}
+          to="/students"
+        >
           Cancel
         </Link>
-        <button type="submit" className="btn btn-outline-success">
-          Update
-        </button>
+        <div>
+          <button
+            type="button"
+            onClick={props.deleteHandler}
+            className={`${styles.deleteButton} btn btn-outline-danger me-2`}
+          >
+            Delete
+          </button>
+          <button
+            type="submit"
+            className={`${styles.updateButton} btn btn-outline-secondary`}
+          >
+            Update
+          </button>
+        </div>
       </div>
     </form>
   );

@@ -1,5 +1,3 @@
-import React from "react";
-import { data } from "../../Data/DUMMY_DATA";
 import styles from "./Dashboard.module.css";
 function TeacherList(props) {
   const teachers = props.teachers;

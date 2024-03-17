@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import styles from "./StudentDetailsForm.module.css";
 import OutlinedInput from "@mui/material/OutlinedInput";
 
 import MenuItem from "@mui/material/MenuItem";
@@ -9,7 +8,6 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
 import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
-import { getAllLectures } from "../../redux/lectureSlice";
 
 function StudentAppendLectureList(props) {
   const dispatch = useDispatch();
@@ -28,11 +26,12 @@ function StudentAppendLectureList(props) {
 
   return (
     <>
-      <div className="mb-3">
+      <div className={`${styles.inputGroup} mb-3`}>
         <label className="form-label" for="studentLectureList">
           Lectures
         </label>
         <Select
+          className={styles.selectForm}
           style={{ width: "100%" }}
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"

@@ -3,20 +3,28 @@
   border-radius: 12px !important;
   position: relative;
   overflow: hidden;
+  border: none;
+  background-color: var(--darkred);
+  color: var(--white);
 }
-
+.listHeader {
+  color: var(--darkred);
+}
 .listItem div {
   overflow: hidden;
 }
 .createButton {
-  color: var(--orange);
-  border-color: var(--orange);
+  background-color: var(--darkred);
+  color: var(--white);
+  border: 2px solid transparent;
+  font-weight: bolder;
 }
 .createButton:hover {
-  background-color: var(--orange);
-  color: var(--white);
-  border-color: transparent;
+  border-color: var(--darkred);
+  background-color: transparent;
+  color: var(--darkred);
 }
+
 .lectureActiveBox {
   position: absolute;
   left: 0;
@@ -26,4 +34,14 @@
   width: 1rem;
 
   z-index: 0;
+}
+.viewButton {
+  border: 2px solid var(--yellow);
+  color: var(--yellow);
+  font-weight: bolder;
+}
+.viewButton:hover {
+  background-color: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--darkred);
 }

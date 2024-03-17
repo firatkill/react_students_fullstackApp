@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Teachers.module.css";
 import { Link } from "react-router-dom";
 import { getAllTeachers } from "../../redux/teacherSlice";
 function Teachers() {
-  const teachers = useSelector((state) => state.data.data.teachers);
   const dispatch = useDispatch();
   const data = useSelector((state) => state.teachers);
 
   useEffect(() => {
     dispatch(getAllTeachers());
+    return () => {};
   }, [dispatch]);
 
   return (
     <div>
       <div className="d-flex align-items-center justify-content-between ">
-        <h1>Teachers</h1>
+        <h1 className={styles.listHeader}>Teachers</h1>
         <Link
           className={styles.createButton + " btn btn-outline-success"}
           to="/teachers/create"
@@ -56,7 +56,7 @@ function Teachers() {
               </div>
 
               <Link
-                className="col-2 d-flex align-items-center justify-content-center col-1 rounded fw-bold btn btn-outline-secondary "
+                className={` col-2 d-flex align-items-center justify-content-center col-1 rounded fw-bold btn btn-outline-secondary  ${styles.viewButton}`}
                 to={"/teachers/view/" + teacher.id}
               >
                 View

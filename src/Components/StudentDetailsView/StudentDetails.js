@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import StudentDetailsForm from "./StudentDetailsForm";
 import {
+  deleteStudent,
   getAllStudents,
   getStudentsLectures,
   studentActions,
@@ -60,9 +61,19 @@ function StudentDetails(props) {
         break;
     }
   };
+
+  const deleteHandler = async (e) => {
+    e.preventDefault();
+
+    if (window.confirm("Are you sure?")) {
+      await dispatch(deleteStudent(student));
+      navigate("/students");
+    }
+  };
   const submitHandler = async (e) => {
     e.preventDefault();
-    dispatch(updateStudent(student));
+
+    await dispatch(updateStudent(student, studentsLectures));
     navigate("/students");
   };
   useEffect(() => {
@@ -94,6 +105,7 @@ function StudentDetails(props) {
           studentInfo={student}
           changeHandler={changeHandler}
           submitHandler={submitHandler}
+          deleteHandler={deleteHandler}
           studentsLectures={studentsLectures}
         />
       )}

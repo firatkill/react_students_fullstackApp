@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import alertify from "alertifyjs";
-const apiRoute = "http://localhost:18181/api";
+const apiRoute = "http://localhost:8080/api";
 
 const initialState = {
   teachers: [],
@@ -51,6 +51,17 @@ export const updateTeacher = createAsyncThunk(
     return response;
   }
 );
+export const deleteTeacher = createAsyncThunk(
+  "deleteTeacher",
+  async (teacher) => {
+    let response = await fetch(apiRoute + "/teachers/" + teacher.id, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    response = await response.json();
+    return response;
+  }
+);
 
 const teacherSlice = createSlice({
   name: "teacher",
@@ -82,7 +93,7 @@ const teacherSlice = createSlice({
       state.data = [];
       state.pending = false;
       state.error = action.error;
-      alertify.danger(action.error.message);
+      alertify.error(action.error.message);
     });
     builder.addCase(updateTeacher.pending, (state, action) => {
       state.pending = true;
@@ -97,7 +108,7 @@ const teacherSlice = createSlice({
       state.pending = false;
 
       state.error = action.error;
-      alertify.danger(action.error.message);
+      alertify.error(action.error.message);
     });
     builder.addCase(postTeacher.pending, (state, action) => {
       state.pending = true;
@@ -111,7 +122,21 @@ const teacherSlice = createSlice({
     builder.addCase(postTeacher.rejected, (state, action) => {
       state.pending = false;
       state.error = action.error;
-      alertify.danger(action.error.message);
+      alertify.error(action.error.message);
+    });
+    builder.addCase(deleteTeacher.pending, (state, action) => {
+      state.pending = true;
+      state.error = "";
+    });
+    builder.addCase(deleteTeacher.fulfilled, (state, action) => {
+      state.pending = false;
+      state.error = "";
+      alertify.success("Teacher Deleted from DB.");
+    });
+    builder.addCase(deleteTeacher.rejected, (state, action) => {
+      state.pending = false;
+      state.error = action.error;
+      alertify.error(action.error.message);
     });
   },
 });
